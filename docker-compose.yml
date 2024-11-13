@@ -1,0 +1,16 @@
+services:
+  mysql:
+    image: mysql:8.0         # Use the desired MySQL version
+    container_name: mysql_db  # Optional: Name the container
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password  # Set the root password
+      MYSQL_DATABASE: bookdb          # Name of the default database
+      MYSQL_USER: user                    # Create a user
+      MYSQL_PASSWORD: user_password       # Password for the user
+    ports:
+      - "3306:3306"                       # Expose the port (host:container)
+    volumes:
+      - mysql_data:/var/lib/mysql         # Persist data across container restarts
+
+volumes:
+  mysql_data:                             # Define named volume for MySQL data
