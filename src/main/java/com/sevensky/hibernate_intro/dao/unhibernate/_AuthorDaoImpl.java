@@ -1,10 +1,11 @@
-package com.sevensky.hibernate_intro.dao;
+package com.sevensky.hibernate_intro.dao.unhibernate;
 
+import com.sevensky.hibernate_intro.dao.AuthorDao;
 import com.sevensky.hibernate_intro.domain.Author;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.List;
 
 //@Component
 public class _AuthorDaoImpl implements AuthorDao {
@@ -13,6 +14,16 @@ public class _AuthorDaoImpl implements AuthorDao {
 
     public _AuthorDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    @Override
+    public List<Author> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public List<Author> listAuthorByLastNameLike(String lastName) {
+        return List.of();
     }
 
     @Override
@@ -65,6 +76,11 @@ public class _AuthorDaoImpl implements AuthorDao {
                 e.printStackTrace();
             }
         }
+        return null;
+    }
+
+    @Override
+    public Author findAuthorByNameCriteria(String firstName, String lastName) {
         return null;
     }
 
@@ -128,14 +144,14 @@ public class _AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public void deleteAuthor(Author author) {
+    public void deleteAuthor(Long id) {
         Connection connection=null;
         PreparedStatement ps=null;
 
         try {
             connection=dataSource.getConnection();
             ps=connection.prepareStatement("DELETE FROm author  where id=?");
-            ps.setLong(1,author.getId());
+            ps.setLong(1,id);
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -146,6 +162,11 @@ public class _AuthorDaoImpl implements AuthorDao {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public Author findAuthorByNameNative(String firstName, String lastName) {
+        return null;
     }
 
     private static Author getAuthor(ResultSet resultSet) throws SQLException {

@@ -1,4 +1,4 @@
-package com.sevensky.hibernate_intro.dao;
+package com.sevensky.hibernate_intro.dao.unhibernate;
 
 import com.sevensky.hibernate_intro.domain.Author;
 import org.springframework.dao.DataAccessException;

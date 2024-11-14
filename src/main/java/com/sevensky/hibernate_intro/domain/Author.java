@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@NamedQuery(name = "author_find_all",query = "from Author")
 @Entity
 public class Author {
 
