@@ -3,6 +3,7 @@ package com.sevensky.hibernate_intro.domain;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @AttributeOverrides({
@@ -52,6 +53,8 @@ public class OrderHeader extends BaseEntity{
     @Enumerated(EnumType.ORDINAL)
     private OrderStatus orderStatus;
 
+    @OneToMany(mappedBy = "orderHeader" , cascade = CascadeType.PERSIST)
+    private Set<OrderLine> orderLines;
 
 
     public OrderStatus getOrderStatus() {
@@ -80,13 +83,30 @@ public class OrderHeader extends BaseEntity{
     }
 
 
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    public Set<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(Set<OrderLine> orderLines) {
+        this.orderLines = orderLines;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof OrderHeader that)) return false;
         if (!super.equals(o)) return false;
 
-        return Objects.equals(getCustomer(), that.getCustomer()) && Objects.equals(getShippingAddress(), that.getShippingAddress()) && Objects.equals(getBillToAddress(), that.getBillToAddress()) && getOrderStatus() == that.getOrderStatus();
+        return Objects.equals(getCustomer(), that.getCustomer()) && Objects.equals(getShippingAddress(), that.getShippingAddress()) && Objects.equals(getBillToAddress(), that.getBillToAddress()) && getOrderStatus() == that.getOrderStatus() && Objects.equals(getOrderLines(), that.getOrderLines());
     }
 
     @Override
@@ -96,14 +116,7 @@ public class OrderHeader extends BaseEntity{
         result = 31 * result + Objects.hashCode(getShippingAddress());
         result = 31 * result + Objects.hashCode(getBillToAddress());
         result = 31 * result + Objects.hashCode(getOrderStatus());
+        result = 31 * result + Objects.hashCode(getOrderLines());
         return result;
-    }
-
-    public String getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
     }
 }
