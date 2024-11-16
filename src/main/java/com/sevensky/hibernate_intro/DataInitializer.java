@@ -26,51 +26,68 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        OrderHeader o1 = new OrderHeader();
-        o1.setCustomer("Ahmad");
-        o1.setBillToAddress(new Address("a","x","c","d"));
-        o1.setShippingAddress(new Address("a","x","c","d"));
-        o1.setOrderStatus(OrderStatus.New);
+//        OrderHeader o1 = new OrderHeader();
+//        o1.setCustomer("Ahmad");
+//        o1.setBillToAddress(new Address("a","x","c","d"));
+//        o1.setShippingAddress(new Address("a","x","c","d"));
+//        o1.setOrderStatus(OrderStatus.New);
+//
+//        Product product=new Product();
+//        product.setName("Apple");
+//
+//        Product product1=new Product();
+//        product1.setName("Apple1");
+//
+//        Product product2=new Product();
+//        product2.setName("Apple2");
+//
+//        productRepository.saveAll(Set.of(product,product1,product2).stream().toList());
+//
+//        productRepository.flush();
+//
+//        Category category=new Category();
+//        category.setName("Apples");
+//        category.addProduct(product);
+//        category.addProduct(product1);
+//        category.addProduct(product2);
+//
+//
+//        OrderApproval orderApproval=new OrderApproval();
+//        orderApproval.setApproveBy("Ahmad");
+//
+//
+//
+//        Category category1= categoryRepository.save(category);
+//
+//        OrderLine orderLine1 = new OrderLine();
+//        orderLine1.setQuantity(1);
+//        o1.AddOrderLine(orderLine1);
+//        orderLine1.setProduct(product);
+//
+//        o1.setOrderApproval(orderApproval);
+//
+//        OrderHeader saved= orderHeaderRepository.save(o1);
+//        orderHeaderRepository.flush();
+//
+//        orderHeaderRepository.deleteById(saved.getId());
+//        orderHeaderRepository.flush();
 
-        Product product=new Product();
-        product.setName("Apple");
+        OrderHeader orderHeader = new OrderHeader();
 
-        Product product1=new Product();
-        product1.setName("Apple1");
+        OrderLine orderLine = new OrderLine();
+        orderLine.setQuantity(123);
+        orderHeader.AddOrderLine(orderLine);
 
-        Product product2=new Product();
-        product2.setName("Apple2");
-
-        productRepository.saveAll(Set.of(product,product1,product2).stream().toList());
-
-        productRepository.flush();
-
-        Category category=new Category();
-        category.setName("Apples");
-        category.addProduct(product);
-        category.addProduct(product1);
-        category.addProduct(product2);
+        var orderHeader1=orderHeaderRepository.save(orderHeader);
+        System.out.println("Version :1 "+orderHeader1.getVersion());
+        orderHeader1.setCustomer("Ahmad");
 
 
-        OrderApproval orderApproval=new OrderApproval();
-        orderApproval.setApproveBy("Ahmad");
+        var orderHeader2=orderHeaderRepository.save(orderHeader1);
+        System.out.println("Version :2 "+orderHeader2.getVersion());
 
-
-
-        Category category1= categoryRepository.save(category);
-
-        OrderLine orderLine1 = new OrderLine();
-        orderLine1.setQuantity(1);
-        o1.AddOrderLine(orderLine1);
-        orderLine1.setProduct(product);
-
-        o1.setOrderApproval(orderApproval);
-
-        OrderHeader saved= orderHeaderRepository.save(o1);
-        orderHeaderRepository.flush();
-
-        orderHeaderRepository.deleteById(saved.getId());
-        orderHeaderRepository.flush();
+       // var orderHeader3=orderHeaderRepository.save(orderHeader1);
+       // System.out.println("Version :3 "+orderHeader3.getVersion());
 
     }
 }

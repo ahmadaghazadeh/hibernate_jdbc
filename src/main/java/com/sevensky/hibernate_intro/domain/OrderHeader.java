@@ -50,6 +50,10 @@ public class OrderHeader extends BaseEntity{
     @Embedded
     private Address shippingAddress;
 
+    @Version
+    @Column(columnDefinition = "integer default 0")
+    private Integer version;
+
     @Embedded
     private Address billToAddress;
 
@@ -134,5 +138,13 @@ public class OrderHeader extends BaseEntity{
         result = 31 * result + Objects.hashCode(getOrderStatus());
         result = 31 * result + Objects.hashCode(getOrderLines());
         return result;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

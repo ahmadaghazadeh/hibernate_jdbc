@@ -9,14 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-
 @Transactional(readOnly = true)
-public interface AuthorRepository extends JpaRepository<Author, Long> {
+public interface AuthorReadRepository extends JpaRepository<Author, Long> {
     Optional<Author> findByFirstNameAndLastName(String firstName, String lastName);
 
     @Nullable
     Author findByFirstName(String firstName);
     Page<Author> findByFirstNameContaining(String firstName, Pageable pageable);
 }
-
-
