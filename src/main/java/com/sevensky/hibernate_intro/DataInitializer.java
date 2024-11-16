@@ -1,6 +1,7 @@
 package com.sevensky.hibernate_intro;
 
 import com.sevensky.hibernate_intro.domain.*;
+import com.sevensky.hibernate_intro.repositories.CategoryRepository;
 import com.sevensky.hibernate_intro.repositories.OrderHeaderRepository;
 import com.sevensky.hibernate_intro.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -15,10 +16,12 @@ public class DataInitializer implements CommandLineRunner {
 
     private final OrderHeaderRepository orderHeaderRepository;
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public DataInitializer(OrderHeaderRepository orderHeaderRepository, ProductRepository productRepository) {
+    public DataInitializer(OrderHeaderRepository orderHeaderRepository, ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -32,13 +35,36 @@ public class DataInitializer implements CommandLineRunner {
         Product product=new Product();
         product.setName("Apple");
 
-        productRepository.save(product);
+        Product product1=new Product();
+        product1.setName("Apple1");
+
+        Product product2=new Product();
+        product2.setName("Apple2");
+
+        productRepository.saveAll(Set.of(product,product1,product2).stream().toList());
+
         productRepository.flush();
+
+        Category category=new Category();
+        category.setName("Apples");
+        category.addProduct(product);
+        category.addProduct(product1);
+        category.addProduct(product2);
+
+
+        OrderApproval orderApproval=new OrderApproval();
+        orderApproval.setApproveBy("Ahmad");
+
+
+
+        Category category1= categoryRepository.save(category);
 
         OrderLine orderLine1 = new OrderLine();
         orderLine1.setQuantity(1);
-        o1.setOrderLines(Set.of(orderLine1));
+        o1.AddOrderLine(orderLine1);
         orderLine1.setProduct(product);
+
+        o1.setOrderApproval(orderApproval);
 
         OrderHeader saved= orderHeaderRepository.save(o1);
 

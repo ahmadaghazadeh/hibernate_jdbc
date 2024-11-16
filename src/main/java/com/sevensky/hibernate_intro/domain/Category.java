@@ -7,26 +7,27 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Product extends BaseEntity {
-
-
+public class Category extends BaseEntity{
 
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "product_category",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
+    @JoinTable(name = "product_category",
+    joinColumns = @JoinColumn(name = "category_id"),
+    inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private Set<Category> categories = new HashSet<>();
+    private Set<Product> products=new HashSet<>();
+
+
+    private String name;
+
 
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Product product)) return false;
+        if (!(o instanceof Category category)) return false;
         if (!super.equals(o)) return false;
 
-        return Objects.equals(getName(), product.getName());
+        return Objects.equals(getName(), category.getName());
     }
 
     @Override
@@ -36,7 +37,14 @@ public class Product extends BaseEntity {
         return result;
     }
 
-    private String name;
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
+    }
+
 
     public String getName() {
         return name;
@@ -44,13 +52,5 @@ public class Product extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    public void addCategory(Category category) {
-        this.categories.add(category);
     }
 }

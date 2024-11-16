@@ -2,6 +2,7 @@ package com.sevensky.hibernate_intro.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -54,8 +55,18 @@ public class OrderHeader extends BaseEntity{
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "orderHeader" , cascade = CascadeType.PERSIST)
-    private Set<OrderLine> orderLines;
+    private Set<OrderLine> orderLines= new HashSet<>();
 
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private OrderApproval orderApproval;
+
+    public OrderApproval getOrderApproval() {
+        return orderApproval;
+    }
+
+    public void setOrderApproval(OrderApproval orderApproval) {
+        this.orderApproval = orderApproval;
+    }
 
     public OrderStatus getOrderStatus() {
         return orderStatus;
@@ -96,9 +107,9 @@ public class OrderHeader extends BaseEntity{
         return orderLines;
     }
 
-    public void setOrderLines(Set<OrderLine> orderLines) {
-        this.orderLines = orderLines;
-    }
+   public void AddOrderLine(OrderLine orderLine) {
+       orderLines.add(orderLine);
+   }
 
     @Override
     public final boolean equals(Object o) {
