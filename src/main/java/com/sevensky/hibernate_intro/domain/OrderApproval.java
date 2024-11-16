@@ -1,11 +1,17 @@
 package com.sevensky.hibernate_intro.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 import java.util.Objects;
 
 @Entity
 public class OrderApproval extends BaseEntity {
+
+    @OneToOne
+    @JoinColumn(name = "order_header_id")
+    private OrderHeader orderHeader;
 
     private String approveBy;
 
@@ -31,5 +37,13 @@ public class OrderApproval extends BaseEntity {
 
     public void setApproveBy(String approveBy) {
         this.approveBy = approveBy;
+    }
+
+    public OrderHeader getOrderHeader() {
+        return orderHeader;
+    }
+
+    public void setOrderHeader(OrderHeader orderHeader) {
+        this.orderHeader = orderHeader;
     }
 }

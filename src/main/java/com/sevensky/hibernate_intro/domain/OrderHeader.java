@@ -1,6 +1,8 @@
 package com.sevensky.hibernate_intro.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -54,10 +56,11 @@ public class OrderHeader extends BaseEntity{
     @Enumerated(EnumType.ORDINAL)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "orderHeader" , cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "orderHeader", cascade = {CascadeType.PERSIST, CascadeType.REMOVE},fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private Set<OrderLine> orderLines= new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, mappedBy = "orderHeader")
     private OrderApproval orderApproval;
 
     public OrderApproval getOrderApproval() {
@@ -66,6 +69,7 @@ public class OrderHeader extends BaseEntity{
 
     public void setOrderApproval(OrderApproval orderApproval) {
         this.orderApproval = orderApproval;
+        orderApproval.setOrderHeader(this);
     }
 
     public OrderStatus getOrderStatus() {
@@ -109,6 +113,7 @@ public class OrderHeader extends BaseEntity{
 
    public void AddOrderLine(OrderLine orderLine) {
        orderLines.add(orderLine);
+       orderLine.setOrderHeader(this);
    }
 
     @Override

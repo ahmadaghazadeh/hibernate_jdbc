@@ -67,6 +67,10 @@ public class DataInitializer implements CommandLineRunner {
         o1.setOrderApproval(orderApproval);
 
         OrderHeader saved= orderHeaderRepository.save(o1);
+        orderHeaderRepository.flush();
+
+        orderHeaderRepository.deleteById(saved.getId());
+        orderHeaderRepository.flush();
 
     }
 }
